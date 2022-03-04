@@ -7,6 +7,7 @@ public class Main {
 	getSodium();
 	getCarbohydrates();
 	getProtein();
+	getSugar();
 	scan.close();
 	}
 	public static void getCalories() {
