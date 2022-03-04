@@ -6,6 +6,7 @@ public class Main {
 	getCalories();
 	getSodium();
 	getCarbohydrates();
+	getProtein();
 	scan.close();
 	}
 	public static void getCalories() {
@@ -60,6 +61,42 @@ public class Main {
 		}
 		else {
 			System.out.println("You are eating the correct amount of carbohydrates.");
+		}
+	}
+	public static void getProtein() {
+		final int pro = 50; 
+		int dif = 0;
+		System.out.println("How much protein did you eat today? (g)");
+		while (!scan.hasNextInt()) scan.next();
+		int ipro = scan.nextInt();  
+		if (ipro > pro) {
+			dif = ipro - pro;
+			System.out.printf("You need to eat %d less g of protein.\n", dif);
+		}
+		else if (ipro < pro) {
+			dif = pro - ipro;
+			System.out.printf("You need to eat %d more g of protein.\n", dif);
+		}
+		else {
+			System.out.println("You are eating the correct amount of protein.");
+		}
+	}
+	public static void getSugar() {
+		final int sug = 36; 
+		int dif = 0;
+		System.out.println("How much sugar did you eat today? (g)");
+		while (!scan.hasNextInt()) scan.next();
+		int isug = scan.nextInt();  
+		if (isug > sug) {
+			dif = isug - sug;
+			System.out.printf("You need to eat %d less g of sugar.\n", dif);
+		}
+		else if (isug < sug) {
+			dif = sug - isug;
+			System.out.printf("You need to eat %d more g of sugar.\n", dif);
+		}
+		else {
+			System.out.println("You are eating the correct amount of sugar.");
 		}
 	}
 }
