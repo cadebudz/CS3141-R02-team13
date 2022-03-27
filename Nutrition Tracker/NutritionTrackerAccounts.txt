@@ -1,0 +1,2 @@
+user1 pass1 68 150 Male 20 
+user2 pass2 120 200 Female 25 
