@@ -116,10 +116,10 @@ public class Main {
 	// returns negative if less calories are needed, positive if more calories are needed
 	public int calcCalories(int w, String g, int c) {
 		int cal = 0;
-		if (g.equals("Male")) {
+		if (g.equalsIgnoreCase("Male")) {
 			for (int i = 0; i < 23; i++) {
-				if (w > mcal[i][0]) {
-					cal = mcal[i][1];
+				if (w < mcal[0][i]) {
+					cal = mcal[1][i];
 					break;
 				}
 			}
@@ -128,8 +128,8 @@ public class Main {
 			}
 		} else {
 			for (int i = 0; i < 23; i++) {
-				if (w > wcal[i][0]) {
-					cal = mcal[i][1];
+				if (w < wcal[0][i]) {
+					cal = mcal[1][i];
 					break;
 				}
 			}
@@ -141,7 +141,7 @@ public class Main {
 	}
 	// returns 0 if carbs are within range, positive if more carbs are needed, negative if less carbs are needed
 	public int calcCarbohydrates(int cal, int carb) {
-		if (carb >= .45 * cal && carb <= .65 * carb) {
+		if (carb >= .45 * cal && carb <= .65 * cal) {
 			return 0;
 		} else if (carb < .45 * cal) {
 			return (int) (cal * .45) - carb;
@@ -150,11 +150,11 @@ public class Main {
 		}
 	}
 	// returns negative if less protein is needed, positive if more protein is needed
-	public int calcProtien(int w, int p) {
+	public int calcProtein(int w, int p) {
 		int prot = 0;
 		for (int i = 0; i < 13; i++) {
-			if (w > pro[i][0]) {
-				prot = pro[i][1];
+			if (w < pro[0][i]) {
+				prot = pro[1][i];
 				break;
 			}
 		}
@@ -166,7 +166,7 @@ public class Main {
 	// return 0 if not eating too much, positive for too much
 	public int calcSugar(String g, int s) {
 		int sug = 0;
-		if (g.equals("Male")) {
+		if (g.equalsIgnoreCase("Male")) {
 			sug = 36;
 		}
 		else {
