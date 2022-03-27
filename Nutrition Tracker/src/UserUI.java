@@ -56,7 +56,7 @@ public class UserUI {
 	//method for finding the user
 	private int searchUser(String userName)
 	{
-		for(int i = 0;i < userInfo.length;i++)
+		for(int i = 0;i < size;i++)
 		{
 			if(userInfo[i][0].equals(userName))
 			{
@@ -234,71 +234,71 @@ public class UserUI {
 				test.userInfo[account][5] = scan.next();
 				isUpdated = true;
 			}
-		}
-		//if they created an account, return specific information, if not then return general info
-		if(account != -1)
-		{
-			System.out.println("How many calories have you eaten today?");
-			int cals = main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],scan.nextInt());
-			if(cals > 0)
+			//if they created an account, return specific information, if not then return general info
+			if(account != -1)
 			{
-				System.out.println("You should eat " + cals + " more calories");
-			}
-			else if (cals < 0)
-			{
-				System.out.println("You should eat " + Math.abs(cals) + " less calories");
+				System.out.println("How many calories have you eaten today?");
+				int cals = main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],scan.nextInt());
+				if(cals > 0)
+				{
+					System.out.println("You should eat " + cals + " more calories");
+				}
+				else if (cals < 0)
+				{
+					System.out.println("You should eat " + Math.abs(cals) + " less calories");
+				}
+				else
+				{
+					System.out.println("You ate the right amount of calories");
+				}
+				System.out.println("How much protein have you eaten today?(g)");
+				int pro = main.calcProtein(Integer.parseInt(test.userInfo[account][3]), scan.nextInt());
+				if(pro > 0)
+				{
+					System.out.println("You should eat " + pro + " more grams of protein");
+				}
+				else if (pro < 0)
+				{
+					System.out.println("You should eat " + Math.abs(pro) + " less grams of protein");
+				}
+				else
+				{
+					System.out.println("You ate the right amount of protein");
+				}
+				main.getSodium();
+				System.out.println("How much sugar have you eaten today?(g)");
+				int sug = main.calcSugar(test.userInfo[account][4],scan.nextInt());
+				if(sug > 0)
+				{
+					System.out.println("You should eat " + sug + " less grams of sugar");
+				}
+				else
+				{
+					System.out.println("You ate the right amount of sugar");
+				}
+				System.out.println("How much carbohydrates have you eaten today?(g)");
+				int carb = main.calcCarbohydrates(main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],cals),scan.nextInt());
+				if(carb > 0)
+				{
+					System.out.println("You should eat " + carb + " more grams of carbohydrates");
+				}
+				else if (carb < 0)
+				{
+					System.out.println("You should eat " + Math.abs(carb) + " less grams of carbohydrates");
+				}
+				else
+				{
+					System.out.println("You ate the right amount of carbohydrates");
+				}
 			}
 			else
 			{
-				System.out.println("You ate the right amount of calories");
+				main.getCalories();
+				main.getCarbohydrates();
+				main.getSodium();
+				main.getProtein();
+				main.getSugar();
 			}
-			System.out.println("How much protein have you eaten today?(g)");
-			int pro = main.calcProtein(Integer.parseInt(test.userInfo[account][3]), scan.nextInt());
-			if(pro > 0)
-			{
-				System.out.println("You should eat " + pro + " more grams of protein");
-			}
-			else if (pro < 0)
-			{
-				System.out.println("You should eat " + Math.abs(pro) + " less grams of protein");
-			}
-			else
-			{
-				System.out.println("You ate the right amount of protein");
-			}
-			main.getSodium();
-			System.out.println("How much sugar have you eaten today?(g)");
-			int sug = main.calcSugar(test.userInfo[account][4],scan.nextInt());
-			if(sug > 0)
-			{
-				System.out.println("You should eat " + sug + " less grams of sugar");
-			}
-			else
-			{
-				System.out.println("You ate the right amount of sugar");
-			}
-			System.out.println("How much carbohydrates have you eaten today?(g)");
-			int carb = main.calcCarbohydrates(main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],cals),scan.nextInt());
-			if(carb > 0)
-			{
-				System.out.println("You should eat " + carb + " more grams of carbohydrates");
-			}
-			else if (carb < 0)
-			{
-				System.out.println("You should eat " + Math.abs(carb) + " less grams of carbohydrates");
-			}
-			else
-			{
-				System.out.println("You ate the right amount of carbohydrates");
-			}
-		}
-		else
-		{
-			main.getCalories();
-			main.getCarbohydrates();
-			main.getSodium();
-			main.getProtein();
-			main.getSugar();
 		}
 		//close scanner and update text file if needed
 		scan.close();
