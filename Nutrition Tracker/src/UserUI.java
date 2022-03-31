@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 public class UserUI extends Application{
 	private String[][] userInfo = new String[10][6];
 	private int size = 0;
+	private int user = 0;
 	
 	//method for reading in the info from the text file
 	private void readFile(String file)
@@ -80,17 +81,18 @@ public class UserUI extends Application{
 		{
 			if(userInfo[i][0].equals(userName))
 			{
+				user = i;
 				return i;
 			}
 		}
+		user = -1;
 		return -1;
 	}
 
 
 	public static void main(String args[]) {
 		launch(args); //JavaFX
-		//Prevents old code from running because operations need to be
-		//performed by JavaFX
+		//Prevents old code from running because operations need to be performed by JavaFX
 		System.exit(69);
 		//create instances of the classes
 		Main main = new Main();
@@ -195,7 +197,7 @@ public class UserUI extends Application{
 				{
 					System.out.println("You ate the right amount of protein");
 				}
-				main.getSodium();
+				//main.getSodium();
 				System.out.println("How much sugar have you eaten today?(g)");
 				int sug = main.calcSugar(test.userInfo[account][4],scan.nextInt());
 				if(sug > 0)
@@ -221,14 +223,15 @@ public class UserUI extends Application{
 					System.out.println("You ate the right amount of carbohydrates");
 				}
 			}
-			else
+			/*else
 			{
+
 				main.getCalories();
 				main.getCarbohydrates();
 				main.getSodium();
 				main.getProtein();
 				main.getSugar();
-			}
+			}*/
 		}
 		//Finished moving
 		//if they do not have an account, ask if they would like to make one
@@ -350,10 +353,7 @@ public class UserUI extends Application{
 
 		//Scenes
 		/*
-		Scene loginScene; //Login page
 		Scene fillableScene; //Page where nutrition information can be entered
-		Scene accountCreationScene; //Page where account can be created
-		Scene updateInformationScene; //Page where personal information can be updated (age, height, weight, etc)
 		//Scene updateAccountScene; //Page where personal information can be updated (username, password)
 		Scene nutritionResultsScene; //Page where nutrition results are displayed*/
 
@@ -433,12 +433,12 @@ public class UserUI extends Application{
 				return;
 			}
 			//TODO fix rewriting first line
-			test.userInfo[0][0] = newUsername.getText();
-			test.userInfo[0][1] = newPassword.getText();
-			test.userInfo[0][2] = newHeight.getText();
-			test.userInfo[0][3] = newWeight.getText();
-			test.userInfo[0][4] = Sex.getValue()+"";
-			test.userInfo[0][5] = newAge.getText();
+			test.userInfo[test.user][0] = newUsername.getText();
+			test.userInfo[test.user][1] = newPassword.getText();
+			test.userInfo[test.user][2] = newHeight.getText();
+			test.userInfo[test.user][3] = newWeight.getText();
+			test.userInfo[test.user][4] = Sex.getValue()+"";
+			test.userInfo[test.user][5] = newAge.getText();
 			test.writeFile("NutritionTrackerAccounts.txt");
 		});
 		VBox accountCreationLayout = new VBox(20);
@@ -446,39 +446,46 @@ public class UserUI extends Application{
 		accountCreationLayout.getChildren().addAll(createHeader,creationWarningLabel,newUsername,newPassword,newHeight,newWeight,Sex,newAge,createAccount);
 
 		//Sets up account creation page
-		primaryStage.setTitle("Nutrition Tracker - Account Creation");
+		primaryStage.setTitle("Nutrition Tracker - Account Update");
+		//TODO unames can't be set until user is set
 		//Title
-		Label updateHeader = new Label("Edit login information you wish to change");
+		Label updateHeader = new Label("Edit information you wish to change");
 		updateHeader.setFont(new Font("Arial",18));
 		//warning label
 		Label updateWarningLabel = new Label();
 		updateWarningLabel.setStyle("-fx-text-fill: #d91212");
 		//Username field
+		System.out.println(user);
 		TextField updateUsername = new TextField();
-		updateUsername.setPromptText("Enter Username:");
+		updateUsername.setPromptText("Update username: "+test.userInfo[test.user][0]);
 		updateUsername.setMaxWidth(300);
 		//Password field
 		TextField updatePassword = new TextField();
-		updatePassword.setPromptText("Enter Password:");
+		updatePassword.setPromptText("Update password: "+test.userInfo[test.user][1]);
 		updatePassword.setMaxWidth(300);
 		//Height field
 		TextField updateHeight = new TextField();
-		updateHeight.setPromptText("Enter Height (inches):");
+		updateHeight.setPromptText("Update height (inches): "+test.userInfo[test.user][2]);
 		updateHeight.setMaxWidth(300);
 		//Weight field
 		TextField updateWeight = new TextField();
-		updateWeight.setPromptText("Enter weight (pounds):");
+		updateWeight.setPromptText("Update weight (pounds): "+test.userInfo[test.user][3]);
 		updateWeight.setMaxWidth(300);
 		//Sex field
 		ComboBox updateSex = new ComboBox();
 		updateSex.getItems().add("Male");
 		updateSex.getItems().add("Female");
+		if(test.userInfo[test.user][4].equals("Male")){
+			updateSex.getSelectionModel().select(0);
+		}else{
+			updateSex.getSelectionModel().select(1);
+		}
 		//Age field
 		TextField updateAge = new TextField();
-		updateAge.setPromptText("Enter Age:");
+		updateAge.setPromptText("Update age: "+test.userInfo[test.user][5]);
 		updateAge.setMaxWidth(300);
 		//Create account button
-		Button updateAccount = new Button("Create an Account");
+		Button updateAccount = new Button("Update Account");
 		updateAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		updateAccount.setStyle("-fx-text-fill: #2929f3");
 		updateAccount.setOnAction(e -> {
