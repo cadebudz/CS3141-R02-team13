@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
@@ -20,8 +19,8 @@ import java.io.PrintWriter;
 
 public class UserUI extends Application{
 	private String[][] userInfo = new String[10][6];
-	private int size = 0;
-	private int user = 0;
+	private int size;
+	private int user;
 	
 	//method for reading in the info from the text file
 	private void readFile(String file)
@@ -94,252 +93,6 @@ public class UserUI extends Application{
 		launch(args); //JavaFX
 		//Prevents old code from running because operations need to be performed by JavaFX
 		System.exit(69);
-		//create instances of the classes
-		Main main = new Main();
-		UserUI test = new UserUI();
-		//create local variables
-		boolean isUpdated = false;
-		int account = -1;  //
-		test.readFile("NutritionTrackerAccounts.txt"); //
-		Scanner scan = new Scanner(System.in);
-		//log in if they have an account
-		System.out.println("Do you have an account already? ('Yes' or 'No')");
-		if(scan.next().equalsIgnoreCase("yes"))
-
-		{
-			//Finished moving
-			/*
-			boolean search = true;
-			while (search == true)
-			{
-				System.out.println("What is your UserName?");
-				//account = test.searchUser(scan.next());
-				if(account == -1)
-				{
-					System.out.println("UserName entered is incorrect, would you like to try again?('Yes' or 'No')");
-					if(!scan.next().equalsIgnoreCase("yes"))
-					{
-						search = false;
-					}
-				}
-				else {
-					System.out.println("What is your password?");
-					if(scan.next().equals(test.userInfo[account][1]))
-					{
-						search = false;
-					}
-					else
-					{
-						account = -1;
-						System.out.println("UserName or password are incorrect, please try again");
-					}
-				}
-			}*/
-			//Finished moving
-			//if they have an account, ask if they want to update it
-			/*if(account != -1)
-			{
-				boolean update = true;
-				while(update == true)
-				{
-					System.out.println("Do you want to update any information on your account?('height' or 'weight' or 'sex' or 'age' or 'no')");
-					String updateInfo = scan.next();
-					switch(updateInfo)
-					{
-					case "height":System.out.println("What is your new height?(inches)");
-						test.userInfo [account][2] = scan.next();
-						isUpdated = true;
-						break;
-					case "weight":System.out.println("What is your new weight?(pounds)");
-						test.userInfo [account][3] = scan.next();
-						isUpdated = true;
-						break;
-					case "sex":System.out.println("What is your new sex?(Male or Female)");
-						test.userInfo [account][4] = scan.next();
-						isUpdated = true;
-						break;
-					case "age":System.out.println("What is your new age?(years)");
-						test.userInfo [account][5] = scan.next();
-						isUpdated = true;
-						break;
-					case"no":update = false;
-					}
-				}
-			}*/
-			//TODO return specific nutrition info if user has account, otherwise use the general methods
-			if(account != -1)
-			{
-				System.out.println("How many calories have you eaten today?");
-				int cals = main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],scan.nextInt());
-				if(cals > 0)
-				{
-					System.out.println("You should eat " + cals + " more calories");
-				}
-				else if (cals < 0)
-				{
-					System.out.println("You should eat " + Math.abs(cals) + " less calories");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of calories");
-				}
-				System.out.println("How much protein have you eaten today?(g)");
-				int pro = main.calcProtein(Integer.parseInt(test.userInfo[account][3]), scan.nextInt());
-				if(pro > 0)
-				{
-					System.out.println("You should eat " + pro + " more grams of protein");
-				}
-				else if (pro < 0)
-				{
-					System.out.println("You should eat " + Math.abs(pro) + " less grams of protein");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of protein");
-				}
-				//main.getSodium();
-				System.out.println("How much sugar have you eaten today?(g)");
-				int sug = main.calcSugar(test.userInfo[account][4],scan.nextInt());
-				if(sug > 0)
-				{
-					System.out.println("You should eat " + sug + " less grams of sugar");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of sugar");
-				}
-				System.out.println("How much carbohydrates have you eaten today?(g)");
-				int carb = main.calcCarbohydrates(main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],cals),scan.nextInt());
-				if(carb > 0)
-				{
-					System.out.println("You should eat " + carb + " more grams of carbohydrates");
-				}
-				else if (carb < 0)
-				{
-					System.out.println("You should eat " + Math.abs(carb) + " less grams of carbohydrates");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of carbohydrates");
-				}
-			}
-			/*else
-			{
-
-				main.getCalories();
-				main.getCarbohydrates();
-				main.getSodium();
-				main.getProtein();
-				main.getSugar();
-			}*/
-		}
-		//Finished moving
-		//if they do not have an account, ask if they would like to make one
-		/*else
-		{
-			System.out.println("Would you want to make an account?('Yes' or 'No')");
-			if(scan.next().equalsIgnoreCase("yes"))
-			{
-				while(account == -1)
-				{
-					if(test.size >= 10)
-					{
-						System.out.println("Account Storage is full, what is the UserName of the file you want to replace?");
-						account = test.searchUser(scan.next());
-					}
-					else
-					{
-						account = test.size;
-						test.size++;
-					}
-				}
-				System.out.println("What is your username?");
-				test.userInfo[account][0] = scan.next();
-				System.out.println("What is your password?");
-				test.userInfo[account][1] = scan.next();
-				System.out.println("What is your height?(inches)");
-				test.userInfo[account][2] = scan.next();
-				System.out.println("What is your weight?(pounds)");
-				test.userInfo[account][3] = scan.next();
-				System.out.println("What is your sex?(Male or Female");
-				test.userInfo[account][4] = scan.next();
-				System.out.println("What is your age?(years)");
-				test.userInfo[account][5] = scan.next();
-				isUpdated = true;
-			}
-			//if they created an account, return specific information, if not then return general info
-			if(account != -1)
-			{
-				System.out.println("How many calories have you eaten today?");
-				int cals = main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],scan.nextInt());
-				if(cals > 0)
-				{
-					System.out.println("You should eat " + cals + " more calories");
-				}
-				else if (cals < 0)
-				{
-					System.out.println("You should eat " + Math.abs(cals) + " less calories");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of calories");
-				}
-				System.out.println("How much protein have you eaten today?(g)");
-				int pro = main.calcProtein(Integer.parseInt(test.userInfo[account][3]), scan.nextInt());
-				if(pro > 0)
-				{
-					System.out.println("You should eat " + pro + " more grams of protein");
-				}
-				else if (pro < 0)
-				{
-					System.out.println("You should eat " + Math.abs(pro) + " less grams of protein");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of protein");
-				}
-				main.getSodium();
-				System.out.println("How much sugar have you eaten today?(g)");
-				int sug = main.calcSugar(test.userInfo[account][4],scan.nextInt());
-				if(sug > 0)
-				{
-					System.out.println("You should eat " + sug + " less grams of sugar");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of sugar");
-				}
-				System.out.println("How much carbohydrates have you eaten today?(g)");
-				int carb = main.calcCarbohydrates(main.calcCalories(Integer.parseInt(test.userInfo[account][3]),test.userInfo[account][4],cals),scan.nextInt());
-				if(carb > 0)
-				{
-					System.out.println("You should eat " + carb + " more grams of carbohydrates");
-				}
-				else if (carb < 0)
-				{
-					System.out.println("You should eat " + Math.abs(carb) + " less grams of carbohydrates");
-				}
-				else
-				{
-					System.out.println("You ate the right amount of carbohydrates");
-				}
-			}
-			else
-			{
-				main.getCalories();
-				main.getCarbohydrates();
-				main.getSodium();
-				main.getProtein();
-				main.getSugar();
-			}
-		}*/
-		//Finished moving
-		//close scanner and update text file if needed
-		/*scan.close();
-		if(isUpdated == true)
-		{
-			test.writeFile("NutritionTrackerAccounts.txt");
-		}*/
 	}
 
 	//Main JavaFX code
@@ -347,25 +100,154 @@ public class UserUI extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		//General information
 		UserUI test = new UserUI();
+		Main main = new Main();
 		test.readFile("NutritionTrackerAccounts.txt");
 		BorderPane mainLayout = new BorderPane();
 		Scene mainScene = new Scene(mainLayout,960,540);
 
-		//Scenes
-		/*
-		Scene fillableScene; //Page where nutrition information can be entered
-		//Scene updateAccountScene; //Page where personal information can be updated (username, password)
-		Scene nutritionResultsScene; //Page where nutrition results are displayed*/
+		//Declare login at beginning so it can be called from any page
+		VBox loginLayout = new VBox(20);
+
+		//TODO exit confirmation
+		//TODO continue without account
+		//TODO return to login page
+		//TODO check for invalid characters
+		//TODO clear old messages
+
+		//Sets up results page
+		//Title
+		Label resultsHeader = new Label("Results");
+		resultsHeader.setFont(new Font("Arial",30));
+		//warning results
+		Label resultsWarningLabel = new Label();
+		resultsWarningLabel.setStyle("-fx-text-fill: #d91212");
+		//Calories results
+		Label resultsCalories = new Label();
+		//Sodium results
+		Label resultsSodium = new Label();
+		//Carbohydrates results
+		Label resultsCarbohydrates = new Label();
+		//Protein results
+		Label resultsProtein = new Label();
+		//Sugar results
+		Label resultsSugar = new Label();
+		VBox resultsLayout = new VBox(20);
+		resultsLayout.setAlignment(Pos.CENTER);
+		resultsLayout.getChildren().addAll(resultsHeader,resultsWarningLabel,resultsCalories,resultsSodium,resultsCarbohydrates,resultsProtein,resultsSugar);
 
 		//Sets up information fill page
-		VBox fillableLayout = new VBox(20);
-		fillableLayout.setAlignment(Pos.CENTER);
-		fillableLayout.getChildren().addAll();
+		//Title
+		Label formHeader = new Label("Enter Nutrition information");
+		formHeader.setFont(new Font("Arial",30));
+		//warning label
+		Label formWarningLabel = new Label();
+		formWarningLabel.setStyle("-fx-text-fill: #d91212");
+		//Calories field
+		TextField calories = new TextField();
+		calories.setPromptText("Enter calories:");
+		calories.setMaxWidth(300);
+		//Sodium field
+		TextField sodium = new TextField();
+		sodium.setPromptText("Enter sodium:");
+		sodium.setMaxWidth(300);
+		//Carbohydrates field
+		TextField carbohydrates = new TextField();
+		carbohydrates.setPromptText("Enter carbohydrates:");
+		carbohydrates.setMaxWidth(300);
+		//Protein field
+		TextField protein = new TextField();
+		protein.setPromptText("Enter protein:");
+		protein.setMaxWidth(300);
+		//Sugar field
+		TextField sugar = new TextField();
+		sugar.setPromptText("Enter sugar:");
+		sugar.setMaxWidth(300);
+		//Create account button
+		Button formEnter = new Button("Enter information");
+		formEnter.setStyle("-fx-background-color: rgba(0,0,0,0)");
+		formEnter.setStyle("-fx-text-fill: #2929f3");
+		formEnter.setOnAction(e -> {
+			if(calories.getText().equals("")){
+				formWarningLabel.setText("Calories is empty");
+				return;
+			}else if(sodium.getText().equals("")){
+				formWarningLabel.setText("Sodium already exists");
+				return;
+			}else if(carbohydrates.getText().equals("")){
+				formWarningLabel.setText("Carbohydrates is empty");
+				return;
+			}else if(protein.getText().equals("")){
+				formWarningLabel.setText("Protein is empty");
+				return;
+			}else if(sugar.getText().equals("")){
+				formWarningLabel.setText("Sugar is empty");
+				return;
+			}else if(!isInt(calories.getText())){
+				formWarningLabel.setText("Calories are not a valid number");
+				return;
+			}else if(!isInt(sodium.getText())){
+				formWarningLabel.setText("Sodium is not a valid number");
+				return;
+			}else if(!isInt(carbohydrates.getText())){
+				formWarningLabel.setText("Carbohydrates are not a valid number");
+				return;
+			}else if(!isInt(protein.getText())){
+				formWarningLabel.setText("Protein is not a valid number");
+				return;
+			}else if(!isInt(sugar.getText())){
+				formWarningLabel.setText("Sugar is not a valid number");
+				return;
+			}
+			if(test.user != -1){
+				//Calculates calories based on information about the user
+				int cals = main.calcCalories(Integer.parseInt(test.userInfo[test.user][3]),test.userInfo[test.user][4],Integer.parseInt(calories.getText()));
+				if(cals > 0) {
+					resultsCalories.setText("You should eat " + cals + " more calories");
+				}else if (cals < 0) {
+					resultsCalories.setText("You should eat " + Math.abs(cals) + " less calories");
+				}else{
+					resultsCalories.setText("You ate the right amount of calories");
+				}
+				int pro = main.calcProtein(Integer.parseInt(test.userInfo[test.user][3]), Integer.parseInt(protein.getText()));
+				if(pro > 0){
+					resultsProtein.setText("You should eat " + pro + " more grams of protein");
+				}else if (pro < 0){
+					resultsProtein.setText("You should eat " + Math.abs(pro) + " less grams of protein");
+				}else{
+					resultsProtein.setText("You ate the right amount of protein");
+				}
+				resultsSodium.setText(main.getSodium(Integer.parseInt(sodium.getText())));
+				int sug = main.calcSugar(test.userInfo[test.user][4],Integer.parseInt(protein.getText()));
+				if(sug > 0) {
+					resultsSugar.setText("You should eat " + sug + " less grams of sugar");
+				}else{
+					resultsSugar.setText("You ate the right amount of sugar");
+				}
+				int carb = main.calcCarbohydrates(main.calcCalories(Integer.parseInt(test.userInfo[test.user][3]),test.userInfo[test.user][4],cals),Integer.parseInt(carbohydrates.getText()));
+				if(carb > 0){
+					resultsCarbohydrates.setText("You should eat " + carb + " more grams of carbohydrates");
+				}else if (carb < 0){
+					resultsCarbohydrates.setText("You should eat " + Math.abs(carb) + " less grams of carbohydrates");
+				}else{
+					resultsCarbohydrates.setText("You ate the right amount of carbohydrates");
+				}
+			}else{
+				resultsCalories.setText(main.getCalories(Integer.parseInt(calories.getText())));
+				resultsCarbohydrates.setText(main.getCarbohydrates(Integer.parseInt(carbohydrates.getText())));
+				resultsSodium.setText(main.getSodium(Integer.parseInt(sodium.getText())));
+				resultsProtein.setText(main.getProtein(Integer.parseInt(protein.getText())));
+				resultsSugar.setText(main.getSugar(Integer.parseInt(sugar.getText())));
+			}
+			formWarningLabel.setText(""); //Clears no generic warning from previous uses
+			mainLayout.setCenter(resultsLayout);
+		});
+		VBox formLayout = new VBox(20);
+		formLayout.setAlignment(Pos.CENTER);
+		formLayout.getChildren().addAll(formHeader,formWarningLabel,calories,sodium,carbohydrates,protein,sugar,formEnter);
 
 
 
 		//Sets up account creation page
-		primaryStage.setTitle("Nutrition Tracker - Account Creation");
 		//Title
 		Label createHeader = new Label("Account Creation");
 		createHeader.setFont(new Font("Arial",30));
@@ -389,7 +271,7 @@ public class UserUI extends Application{
 		newWeight.setPromptText("Enter weight (pounds):");
 		newWeight.setMaxWidth(300);
 		//Sex field
-		ComboBox Sex = new ComboBox();
+		ComboBox<String> Sex = new ComboBox<String>();
 		Sex.getItems().add("Male");
 		Sex.getItems().add("Female");
 		//Age field
@@ -432,7 +314,7 @@ public class UserUI extends Application{
 				creationWarningLabel.setText("Age is not a valid number");
 				return;
 			}
-			//TODO fix rewriting first line
+			//TODO check number of users is < 10 before adding a new one
 			test.userInfo[test.user][0] = newUsername.getText();
 			test.userInfo[test.user][1] = newPassword.getText();
 			test.userInfo[test.user][2] = newHeight.getText();
@@ -440,13 +322,13 @@ public class UserUI extends Application{
 			test.userInfo[test.user][4] = Sex.getValue()+"";
 			test.userInfo[test.user][5] = newAge.getText();
 			test.writeFile("NutritionTrackerAccounts.txt");
+			mainLayout.setCenter(loginLayout);
 		});
 		VBox accountCreationLayout = new VBox(20);
 		accountCreationLayout.setAlignment(Pos.CENTER);
 		accountCreationLayout.getChildren().addAll(createHeader,creationWarningLabel,newUsername,newPassword,newHeight,newWeight,Sex,newAge,createAccount);
 
-		//Sets up account creation page
-		primaryStage.setTitle("Nutrition Tracker - Account Update");
+		//Sets up account update page
 		//TODO unames can't be set until user is set
 		//Title
 		Label updateHeader = new Label("Edit information you wish to change");
@@ -455,7 +337,6 @@ public class UserUI extends Application{
 		Label updateWarningLabel = new Label();
 		updateWarningLabel.setStyle("-fx-text-fill: #d91212");
 		//Username field
-		System.out.println(user);
 		TextField updateUsername = new TextField();
 		updateUsername.setPromptText("Update username: "+test.userInfo[test.user][0]);
 		updateUsername.setMaxWidth(300);
@@ -472,7 +353,7 @@ public class UserUI extends Application{
 		updateWeight.setPromptText("Update weight (pounds): "+test.userInfo[test.user][3]);
 		updateWeight.setMaxWidth(300);
 		//Sex field
-		ComboBox updateSex = new ComboBox();
+		ComboBox<String> updateSex = new ComboBox<>();
 		updateSex.getItems().add("Male");
 		updateSex.getItems().add("Female");
 		if(test.userInfo[test.user][4].equals("Male")){
@@ -489,7 +370,6 @@ public class UserUI extends Application{
 		updateAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		updateAccount.setStyle("-fx-text-fill: #2929f3");
 		updateAccount.setOnAction(e -> {
-			//TODO use correct line
 			if(searchUser(newUsername.getText())!=-1){
 				creationWarningLabel.setText("Username already exists");
 				return;
@@ -503,21 +383,21 @@ public class UserUI extends Application{
 				creationWarningLabel.setText("Age is not a valid number");
 				return;
 			}
-			//TODO add information
 			if(!(newUsername.getText().equals(""))){
-				test.userInfo[0][0] = newUsername.getText();
+				test.userInfo[this.user][0] = newUsername.getText();
 			}else if(!(newPassword.getText().equals(""))){
-				test.userInfo[0][1] = newPassword.getText();
+				test.userInfo[this.user][1] = newPassword.getText();
 			}else if(!(newHeight.getText().equals(""))){
-				test.userInfo[0][2] = newHeight.getText();
+				test.userInfo[this.user][2] = newHeight.getText();
 			}else if(!(newWeight.getText().equals(""))){
-				test.userInfo[0][3] = newWeight.getText();
+				test.userInfo[this.user][3] = newWeight.getText();
 			}else if(!(Sex.getSelectionModel().isEmpty())){
-				test.userInfo[0][4] = Sex.getValue()+"";
+				test.userInfo[this.user][4] = Sex.getValue()+"";
 			}else if(!(newAge.getText().equals(""))){
-				test.userInfo[0][5] = newAge.getText();
+				test.userInfo[this.user][5] = newAge.getText();
 			}
 			test.writeFile("NutritionTrackerAccounts.txt");
+			mainLayout.setCenter(loginLayout);
 		});
 		VBox accountEditLayout = new VBox(20);
 		accountEditLayout.setAlignment(Pos.CENTER);
@@ -525,7 +405,6 @@ public class UserUI extends Application{
 
 
 		//Sets up login page
-		primaryStage.setTitle("Nutrition Tracker - Login");
 		//Title
 		Label loginHeader = new Label("Login");
 		loginHeader.setFont(new Font("Arial",30));
@@ -582,8 +461,11 @@ public class UserUI extends Application{
 						popupBorder.close();
 					});
 					popupBorder.setTitle("Edit");
-					//TODO update when you have account information
-					//no.setOnAction(f -> mainLayout.setCenter(accountCreationLayout));
+					no.setOnAction(f -> {
+						mainLayout.setCenter(formLayout);
+						formWarningLabel.setText("No account created. Results may be generic");
+						popupBorder.close();
+					});
 					popupBorder.show(); //Shows stage
 				}else{
 					loginWarningLabel.setText("Incorrect password");
@@ -596,25 +478,27 @@ public class UserUI extends Application{
 		createNewAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		createNewAccount.setStyle("-fx-text-fill: #2929f3");
 		createNewAccount.setOnAction(e -> mainLayout.setCenter(accountCreationLayout));
-		VBox loginLayout = new VBox(20);
+
 		loginLayout.setAlignment(Pos.CENTER);
 		loginLayout.getChildren().addAll(loginHeader,loginWarningLabel,loginUsername,loginPassword,loginButton,createNewAccount);
 
 
 		
-		//Combines pieces and shows window
+		//Combines pieces and shows window allowing the program to launch
+		primaryStage.setTitle("Nutrition Tracker");
 		primaryStage.setScene(mainScene);
 		mainLayout.setCenter(loginLayout);
-
 		primaryStage.show();
 	}
 
-	//Methods for checking integers
+	//Method used for checking integers provided by text fields in GUI
 	private boolean isInt(String message){
 		try{
+			//Attempts to write strings to an int
 			int integer = Integer.parseInt(message);
 			return true;
 		}catch (NumberFormatException e){
+			//Catches non integers
 			return false;
 		}
 	}
