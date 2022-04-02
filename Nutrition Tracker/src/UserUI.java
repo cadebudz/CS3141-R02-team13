@@ -91,7 +91,7 @@ public class UserUI extends Application{
 
 	public static void main(String args[]) {
 		launch(args); //JavaFX
-		//Prevents old code from running because operations need to be performed by JavaFX
+		//Prevents old code from running because operations need to be performed by JavaFX (Old code has since been removed)
 		System.exit(69);
 	}
 
@@ -280,7 +280,6 @@ public class UserUI extends Application{
 		newAge.setMaxWidth(300);
 		//Create account button
 		Button createAccount = new Button("Create an Account");
-		createAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		createAccount.setStyle("-fx-text-fill: #2929f3");
 		createAccount.setOnAction(e -> {
 			if(newUsername.getText().equals("")){
@@ -442,9 +441,7 @@ public class UserUI extends Application{
 					BorderPane popupPane = new BorderPane(); //Border pane
 					HBox update = new HBox(20); //HBox for center
 					Button yes = new Button("Yes");
-
 					Button no = new Button("No");
-
 					update.setAlignment(Pos.CENTER);
 					update.getChildren().addAll(yes,no);
 					HBox header = new HBox(20); //VBox for header
@@ -463,7 +460,7 @@ public class UserUI extends Application{
 					popupBorder.setTitle("Edit");
 					no.setOnAction(f -> {
 						mainLayout.setCenter(formLayout);
-						formWarningLabel.setText("No account created. Results may be generic");
+						//formWarningLabel.setText("No account created. Results may be generic");
 						popupBorder.close();
 					});
 					popupBorder.show(); //Shows stage
