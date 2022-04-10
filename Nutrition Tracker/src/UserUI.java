@@ -48,7 +48,6 @@ public class UserUI extends Application{
 			}catch (FileNotFoundException f){
 
 			}
-
 		}
 		size = countRow;
 	}
@@ -76,15 +75,11 @@ public class UserUI extends Application{
 	//method for finding the user
 	private int searchUser(String userName)
 	{
-		for(int i = 0;i < size;i++)
-		{
-			if(userInfo[i][0].equals(userName))
-			{
-				user = i;
+		for(int i = 0;i < size;i++) {
+			if(userInfo[i][0].equals(userName)) {
 				return i;
 			}
 		}
-		user = -1;
 		return -1;
 	}
 
@@ -94,6 +89,8 @@ public class UserUI extends Application{
 		//Prevents old code from running because operations need to be performed by JavaFX (Old code has since been removed)
 		System.exit(69);
 	}
+
+	VBox loginLayout;
 
 	//Main JavaFX code
 	@Override
@@ -106,7 +103,7 @@ public class UserUI extends Application{
 		Scene mainScene = new Scene(mainLayout,960,540);
 
 		//Declare login at beginning so it can be called from any page
-		VBox loginLayout = new VBox(20);
+		//VBox loginLayout;
 
 		//TODO exit confirmation
 		//TODO continue without account
@@ -286,6 +283,7 @@ public class UserUI extends Application{
 				creationWarningLabel.setText("Username is empty");
 				return;
 			}else if(searchUser(newUsername.getText())!=-1){
+				test.user = searchUser(newUsername.getText());
 				creationWarningLabel.setText("Username already exists");
 				return;
 			}else if(newPassword.getText().equals("")){
@@ -314,12 +312,13 @@ public class UserUI extends Application{
 				return;
 			}
 			//TODO check number of users is < 10 before adding a new one
-			test.userInfo[test.user][0] = newUsername.getText();
-			test.userInfo[test.user][1] = newPassword.getText();
-			test.userInfo[test.user][2] = newHeight.getText();
-			test.userInfo[test.user][3] = newWeight.getText();
-			test.userInfo[test.user][4] = Sex.getValue()+"";
-			test.userInfo[test.user][5] = newAge.getText();
+			test.userInfo[test.size][0] = newUsername.getText();
+			test.userInfo[test.size][1] = newPassword.getText();
+			test.userInfo[test.size][2] = newHeight.getText();
+			test.userInfo[test.size][3] = newWeight.getText();
+			test.userInfo[test.size][4] = Sex.getValue()+"";
+			test.userInfo[test.size][5] = newAge.getText();
+			test.size++;
 			test.writeFile("NutritionTrackerAccounts.txt");
 			mainLayout.setCenter(loginLayout);
 		});
@@ -337,19 +336,18 @@ public class UserUI extends Application{
 		updateWarningLabel.setStyle("-fx-text-fill: #d91212");
 		//Username field
 		TextField updateUsername = new TextField();
-		updateUsername.setPromptText("Update username: "+test.userInfo[test.user][0]);
 		updateUsername.setMaxWidth(300);
 		//Password field
 		TextField updatePassword = new TextField();
-		updatePassword.setPromptText("Update password: "+test.userInfo[test.user][1]);
+
 		updatePassword.setMaxWidth(300);
 		//Height field
 		TextField updateHeight = new TextField();
-		updateHeight.setPromptText("Update height (inches): "+test.userInfo[test.user][2]);
+
 		updateHeight.setMaxWidth(300);
 		//Weight field
 		TextField updateWeight = new TextField();
-		updateWeight.setPromptText("Update weight (pounds): "+test.userInfo[test.user][3]);
+
 		updateWeight.setMaxWidth(300);
 		//Sex field
 		ComboBox<String> updateSex = new ComboBox<>();
@@ -369,7 +367,8 @@ public class UserUI extends Application{
 		updateAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		updateAccount.setStyle("-fx-text-fill: #2929f3");
 		updateAccount.setOnAction(e -> {
-			if(searchUser(newUsername.getText())!=-1){
+			if(searchUser(updateUsername.getText())!=-1){
+				test.user = searchUser(updateUsername.getText());
 				creationWarningLabel.setText("Username already exists");
 				return;
 			}else if(isInt(newHeight.getText())==false){
@@ -382,18 +381,23 @@ public class UserUI extends Application{
 				creationWarningLabel.setText("Age is not a valid number");
 				return;
 			}
-			if(!(newUsername.getText().equals(""))){
-				test.userInfo[this.user][0] = newUsername.getText();
-			}else if(!(newPassword.getText().equals(""))){
-				test.userInfo[this.user][1] = newPassword.getText();
-			}else if(!(newHeight.getText().equals(""))){
-				test.userInfo[this.user][2] = newHeight.getText();
-			}else if(!(newWeight.getText().equals(""))){
-				test.userInfo[this.user][3] = newWeight.getText();
-			}else if(!(Sex.getSelectionModel().isEmpty())){
-				test.userInfo[this.user][4] = Sex.getValue()+"";
-			}else if(!(newAge.getText().equals(""))){
-				test.userInfo[this.user][5] = newAge.getText();
+			if(!(updateUsername.getText().equals(""))){
+				test.userInfo[test.user][0] = updateUsername.getText();	
+			}
+			if(!(updatePassword.getText().equals(""))){
+				test.userInfo[test.user][1] = updatePassword.getText();
+			}
+			if(!(updateHeight.getText().equals(""))){
+				test.userInfo[test.user][2] = updateHeight.getText();
+			}
+			if(!(updateWeight.getText().equals(""))){
+				test.userInfo[test.user][3] = updateWeight.getText();
+			}
+			if(!(updateSex.getSelectionModel().isEmpty())){
+				test.userInfo[test.user][4] = updateSex.getValue()+"";
+			}
+			if(!(updateAge.getText().equals(""))){
+				test.userInfo[test.user][5] = updateAge.getText();
 			}
 			test.writeFile("NutritionTrackerAccounts.txt");
 			mainLayout.setCenter(loginLayout);
@@ -431,6 +435,7 @@ public class UserUI extends Application{
 			}else{
 				int account = -1;
 				account = test.searchUser(loginUsername.getText());
+				test.user = account;
 				if(account == -1){
 					loginWarningLabel.setText("No matching username found");
 					return;
@@ -438,6 +443,10 @@ public class UserUI extends Application{
 				if(loginPassword.getText().equals(test.userInfo[account][1])){
 					//Password matches
 					//Popup
+
+					System.out.println("User: "+test.user);
+					System.out.println("Account: "+account);
+
 					BorderPane popupPane = new BorderPane(); //Border pane
 					HBox update = new HBox(20); //HBox for center
 					Button yes = new Button("Yes");
@@ -454,6 +463,10 @@ public class UserUI extends Application{
 					Stage popupBorder = new Stage(); //Creates stage
 					popupBorder.setScene(popupCenter); //Applies scene to stage
 					yes.setOnAction(f -> {
+						updateUsername.setPromptText("Update username: "+test.userInfo[test.user][0]);
+						updatePassword.setPromptText("Update password: "+test.userInfo[test.user][1]);
+						updateHeight.setPromptText("Update height (inches): "+test.userInfo[test.user][2]);
+						updateWeight.setPromptText("Update weight (pounds): "+test.userInfo[test.user][3]);
 						mainLayout.setCenter(accountEditLayout);
 						popupBorder.close();
 					});
@@ -475,7 +488,7 @@ public class UserUI extends Application{
 		createNewAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		createNewAccount.setStyle("-fx-text-fill: #2929f3");
 		createNewAccount.setOnAction(e -> mainLayout.setCenter(accountCreationLayout));
-
+		loginLayout = new VBox(20);
 		loginLayout.setAlignment(Pos.CENTER);
 		loginLayout.getChildren().addAll(loginHeader,loginWarningLabel,loginUsername,loginPassword,loginButton,createNewAccount);
 
