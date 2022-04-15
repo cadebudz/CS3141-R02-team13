@@ -38,6 +38,8 @@ public class UserUI extends Application{
 		        countRow++;
 		        s2.close();
 		    }
+			size = countRow;
+			
 			sc2.close();
 		}
 		catch(FileNotFoundException e)
@@ -49,7 +51,6 @@ public class UserUI extends Application{
 
 			}
 		}
-		size = countRow;
 	}
 	//method for writing out to the file
 	private void writeFile(String file)
@@ -73,10 +74,10 @@ public class UserUI extends Application{
 		}
 	}
 	//method for finding the user
-	private int searchUser(String userName)
+	private int searchUser(String userName, String[][] Info, int size)
 	{
 		for(int i = 0;i < size;i++) {
-			if(userInfo[i][0].equals(userName)) {
+			if(Info[i][0].equals(userName)) {
 				return i;
 			}
 		}
@@ -282,8 +283,8 @@ public class UserUI extends Application{
 			if(newUsername.getText().equals("")){
 				creationWarningLabel.setText("Username is empty");
 				return;
-			}else if(searchUser(newUsername.getText())!=-1){
-				test.user = searchUser(newUsername.getText());
+			}else if(searchUser(newUsername.getText(), test.userInfo, test.size)!=-1){
+				test.user = searchUser(newUsername.getText(), test.userInfo, test.size);
 				creationWarningLabel.setText("Username already exists");
 				return;
 			}else if(newPassword.getText().equals("")){
@@ -367,18 +368,20 @@ public class UserUI extends Application{
 		updateAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		updateAccount.setStyle("-fx-text-fill: #2929f3");
 		updateAccount.setOnAction(e -> {
-			if(searchUser(updateUsername.getText())!=-1){
-				test.user = searchUser(updateUsername.getText());
-				creationWarningLabel.setText("Username already exists");
+			userInfo = test.userInfo;
+			size = test.size;
+			if(searchUser(updateUsername.getText(), test.userInfo, test.size)!=-1){
+				test.user = searchUser(updateUsername.getText(), test.userInfo, test.size);
+				updateWarningLabel.setText("Username already exists");
 				return;
-			}else if(isInt(newHeight.getText())==false){
-				creationWarningLabel.setText("Height is not a valid number");
+			}else if(!updateHeight.getText().equals("") && isInt(updateHeight.getText())==false){
+				updateWarningLabel.setText("Height is not a valid number");
 				return;
-			}else if(isInt(newWeight.getText())==false){
-				creationWarningLabel.setText("Weight is not a valid number");
+			}else if(!updateWeight.getText().equals("") && isInt(updateWeight.getText())==false){
+				updateWarningLabel.setText("Weight is not a valid number");
 				return;
-			}else if(isInt(newAge.getText())==false){
-				creationWarningLabel.setText("Age is not a valid number");
+			}else if(!updateAge.getText().equals("") && isInt(updateAge.getText())==false){
+				updateWarningLabel.setText("Age is not a valid number");
 				return;
 			}
 			if(!(updateUsername.getText().equals(""))){
@@ -434,7 +437,7 @@ public class UserUI extends Application{
 				return;
 			}else{
 				int account = -1;
-				account = test.searchUser(loginUsername.getText());
+				account = test.searchUser(loginUsername.getText(), test.userInfo, test.size);
 				test.user = account;
 				if(account == -1){
 					loginWarningLabel.setText("No matching username found");
@@ -443,9 +446,6 @@ public class UserUI extends Application{
 				if(loginPassword.getText().equals(test.userInfo[account][1])){
 					//Password matches
 					//Popup
-
-					System.out.println("User: "+test.user);
-					System.out.println("Account: "+account);
 
 					BorderPane popupPane = new BorderPane(); //Border pane
 					HBox update = new HBox(20); //HBox for center
@@ -467,6 +467,7 @@ public class UserUI extends Application{
 						updatePassword.setPromptText("Update password: "+test.userInfo[test.user][1]);
 						updateHeight.setPromptText("Update height (inches): "+test.userInfo[test.user][2]);
 						updateWeight.setPromptText("Update weight (pounds): "+test.userInfo[test.user][3]);
+						updateAge.setPromptText("Update age (years): "+test.userInfo[test.user][5]);
 						mainLayout.setCenter(accountEditLayout);
 						popupBorder.close();
 					});
@@ -505,7 +506,7 @@ public class UserUI extends Application{
 	private boolean isInt(String message){
 		try{
 			//Attempts to write strings to an int
-			int integer = Integer.parseInt(message);
+			Integer.parseInt(message);
 			return true;
 		}catch (NumberFormatException e){
 			//Catches non integers
