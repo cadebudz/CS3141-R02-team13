@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -17,7 +16,7 @@ import java.io.File;
 import java.io.PrintWriter;
 
 public class Main extends Application{
-	private String[][] userInfo = new String[10][6];
+	private String[][] userInfo = new String[25][6];
 	private int size;
 	private int user;
 	
@@ -83,11 +82,8 @@ public class Main extends Application{
 		return -1;
 	}
 
-
 	public static void main(String args[]) {
 		launch(args); //JavaFX
-		//Prevents old code from running because operations need to be performed by JavaFX (Old code has since been removed)
-		System.exit(69);
 	}
 
 	VBox loginLayout;
@@ -102,50 +98,63 @@ public class Main extends Application{
 		BorderPane mainLayout = new BorderPane();
 		Scene mainScene = new Scene(mainLayout,960,540);
 
-		//Declare login at beginning so it can be called from any page
-
-		//TODO exit confirmation
-		//TODO check for invalid characters
-
 		//Sets up return to login button
 		Button returnButton = new Button("Return To Login");
-		//returnButton.setStyle("-fx-background-color: #f4f4f4");
+		returnButton.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e");
 		returnButton.setOnAction(e -> {
 			mainLayout.setCenter(loginLayout);
 			mainLayout.setTop(null);
 		});
 		HBox returnLayout = new HBox();
-		returnLayout.setPadding(new Insets(10,10,10,10));
+		returnLayout.setPadding(new Insets(3,10,10,10));
+		returnLayout.setStyle("-fx-background-color : #3e3e3e");
 		returnLayout.getChildren().addAll(returnButton);
+
+		//Adds yellow bar across bottom
+		HBox yellowBottom = new HBox();
+		yellowBottom.setPadding(new Insets(10,0,0,0));
+		yellowBottom.setStyle("-fx-background-color:linear-gradient(to top, #ffd818, #3e3e3e)");
+		yellowBottom.getChildren().addAll();
+		mainLayout.setBottom(yellowBottom);
 
 		//Sets up results page
 		//Title
 		Label resultsHeader = new Label("Results");
 		resultsHeader.setFont(new Font("Arial",30));
-		//warning results
-		Label resultsWarningLabel = new Label();
-		resultsWarningLabel.setStyle("-fx-text-fill: #d91212");
+		resultsHeader.setStyle("-fx-text-fill: #ffffff");
 		//Calories results
 		Label resultsCalories = new Label();
+		resultsCalories.setStyle("-fx-text-fill: #ffffff");
+		resultsCalories.setFont(new Font("Arial",16));
 		//Sodium results
 		Label resultsSodium = new Label();
+		resultsSodium.setStyle("-fx-text-fill: #ffffff");
+		resultsSodium.setFont(new Font("Arial",16));
 		//Carbohydrates results
 		Label resultsCarbohydrates = new Label();
+		resultsCarbohydrates.setStyle("-fx-text-fill: #ffffff");
+		resultsCarbohydrates.setFont(new Font("Arial",16));
 		//Protein results
 		Label resultsProtein = new Label();
+		resultsProtein.setStyle("-fx-text-fill: #ffffff");
+		resultsProtein.setFont(new Font("Arial",16));
 		//Sugar results
 		Label resultsSugar = new Label();
+		resultsSugar.setStyle("-fx-text-fill: #ffffff");
+		resultsSugar.setFont(new Font("Arial",16));
 		VBox resultsLayout = new VBox(20);
 		resultsLayout.setAlignment(Pos.CENTER);
-		resultsLayout.getChildren().addAll(resultsHeader,resultsWarningLabel,resultsCalories,resultsSodium,resultsCarbohydrates,resultsProtein,resultsSugar);
+		resultsLayout.setStyle("-fx-background-color : #3e3e3e");
+		resultsLayout.getChildren().addAll(resultsHeader,resultsCalories,resultsSodium,resultsCarbohydrates,resultsProtein,resultsSugar);
 
 		//Sets up information fill page
 		//Title
 		Label formHeader = new Label("Enter Nutrition Information");
 		formHeader.setFont(new Font("Arial",30));
+		formHeader.setStyle("-fx-text-fill: #ffffff");
 		//warning label
 		Label formWarningLabel = new Label();
-		formWarningLabel.setStyle("-fx-text-fill: #d91212");
+		formWarningLabel.setStyle("-fx-text-fill: #ffd818");
 		//Calories field
 		TextField calories = new TextField();
 		calories.setPromptText("Enter calories:");
@@ -169,7 +178,7 @@ public class Main extends Application{
 		//Create account button
 		Button formEnter = new Button("Enter information");
 		formEnter.setStyle("-fx-background-color: rgba(0,0,0,0)");
-		formEnter.setStyle("-fx-text-fill: #2929f3");
+		formEnter.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e;-fx-border-color: #FFFFFFFF;-fx-border-width: 2");
 		formEnter.setOnAction(e -> {
 			if(calories.getText().equals("")){
 				formWarningLabel.setText("Calories is empty");
@@ -247,15 +256,17 @@ public class Main extends Application{
 		});
 		VBox formLayout = new VBox(20);
 		formLayout.setAlignment(Pos.CENTER);
+		formLayout.setStyle("-fx-background-color : #3e3e3e");
 		formLayout.getChildren().addAll(formHeader,formWarningLabel,calories,sodium,carbohydrates,protein,sugar,formEnter);
 
 		//Sets up account creation page
 		//Title
 		Label createHeader = new Label("Account Creation");
 		createHeader.setFont(new Font("Arial",30));
+		createHeader.setStyle("-fx-text-fill: #ffffff");
 		//warning label
 		Label creationWarningLabel = new Label();
-		creationWarningLabel.setStyle("-fx-text-fill: #d91212");
+		creationWarningLabel.setStyle("-fx-text-fill: #ffd818");
 		//Username field
 		TextField newUsername = new TextField();
 		newUsername.setPromptText("Enter Username:");
@@ -282,7 +293,7 @@ public class Main extends Application{
 		newAge.setMaxWidth(300);
 		//Create account button
 		Button createAccount = new Button("Create an Account");
-		createAccount.setStyle("-fx-text-fill: #2929f3");
+		createAccount.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e;-fx-border-color: #FFFFFFFF;-fx-border-width: 2");
 		createAccount.setOnAction(e -> {
 			if(newUsername.getText().equals("")){
 				creationWarningLabel.setText("Username is empty");
@@ -330,15 +341,17 @@ public class Main extends Application{
 		});
 		VBox accountCreationLayout = new VBox(20);
 		accountCreationLayout.setAlignment(Pos.CENTER);
+		accountCreationLayout.setStyle("-fx-background-color : #3e3e3e");
 		accountCreationLayout.getChildren().addAll(createHeader,creationWarningLabel,newUsername,newPassword,newHeight,newWeight,Sex,newAge,createAccount);
 
 		//Sets up account update page
 		//Title
 		Label updateHeader = new Label("Edit information you wish to change");
 		updateHeader.setFont(new Font("Arial",18));
+		updateHeader.setStyle("-fx-text-fill: #ffffff");
 		//warning label
 		Label updateWarningLabel = new Label();
-		updateWarningLabel.setStyle("-fx-text-fill: #d91212");
+		updateWarningLabel.setStyle("-fx-text-fill: #ffd818");
 		//Username field
 		TextField updateUsername = new TextField();
 		updateUsername.setMaxWidth(300);
@@ -366,7 +379,7 @@ public class Main extends Application{
 		updateAge.setMaxWidth(300);
 		//Create account button
 		Button updateAccount = new Button("Update Account");
-		updateAccount.setStyle("-fx-text-fill: #2929f3");
+		updateAccount.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e;-fx-border-color: #FFFFFFFF;-fx-border-width: 2");
 		updateAccount.setOnAction(e -> {
 			userInfo = test.userInfo;
 			size = test.size;
@@ -407,16 +420,18 @@ public class Main extends Application{
 		});
 		VBox accountEditLayout = new VBox(20);
 		accountEditLayout.setAlignment(Pos.CENTER);
+		accountEditLayout.setStyle("-fx-background-color : #3e3e3e");
 		accountEditLayout.getChildren().addAll(updateHeader,updateWarningLabel,updateUsername,updatePassword,updateHeight,updateWeight,updateSex,updateAge,updateAccount);
-
 
 		//Sets up login page
 		//Title
 		Label loginHeader = new Label("Login");
 		loginHeader.setFont(new Font("Arial",30));
+		loginHeader.setStyle("-fx-text-fill: #ffffff");
+		loginHeader.setUnderline(false);
 		//warning label
 		Label loginWarningLabel = new Label();
-		loginWarningLabel.setStyle("-fx-text-fill: #d91212");
+		loginWarningLabel.setStyle("-fx-text-fill: #ffd818");
 		//Username field
 		TextField loginUsername = new TextField();
 		loginUsername.setPromptText("Enter Username:");
@@ -427,6 +442,8 @@ public class Main extends Application{
 		loginPassword.setMaxWidth(300);
 		//Enter button
 		Button loginButton = new Button("Enter");
+		loginButton.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e;-fx-border-color: #FFFFFFFF;-fx-border-width: 2");
+		loginButton.setFont(new Font("Arial",13));
 		//Enter button functionality (checking username and password
 		loginButton.setOnAction(e -> {
 			if(loginUsername.getText().equals("")){
@@ -475,13 +492,16 @@ public class Main extends Application{
 					update.getChildren().addAll(yes,no);
 					HBox header = new HBox(20); //VBox for header
 					Label popupHeader = new Label("Do you want to update your information?");
+					popupHeader.setStyle("-fx-text-fill: #ffffff");
 					header.getChildren().add(popupHeader);
 					header.setAlignment(Pos.CENTER);
 					popupPane.setTop(header);
 					popupPane.setCenter(update); //Combining HBox and border pane
+					popupPane.setStyle("-fx-background-color : #3e3e3e");
 					Scene popupCenter = new Scene(popupPane,300,100); //Creates scene
 					Stage popupBorder = new Stage(); //Creates stage
 					popupBorder.setScene(popupCenter); //Applies scene to stage
+					yes.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e;-fx-border-color: #FFFFFFFF;-fx-border-width: 1");
 					yes.setOnAction(f -> {
 						updateUsername.setPromptText("Update username: "+test.userInfo[test.user][0]);
 						updatePassword.setPromptText("Update password: "+test.userInfo[test.user][1]);
@@ -492,12 +512,12 @@ public class Main extends Application{
 						popupBorder.close();
 					});
 					popupBorder.setTitle("Edit");
+					no.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e;-fx-border-color: #FFFFFFFF;-fx-border-width: 1");
 					no.setOnAction(f -> {
 						mainLayout.setCenter(formLayout);
 						mainLayout.setTop(returnLayout);
 						popupBorder.close();
 					});
-
 					popupBorder.show(); //Shows stage
 				}else{
 					loginWarningLabel.setText("Incorrect password");
@@ -507,14 +527,14 @@ public class Main extends Application{
 		});
 		//Create account button functionality
 		Button createNewAccount = new Button("Create an account");
-		createNewAccount.setStyle("-fx-text-fill: rgba(41,41,243,0.8);-fx-background-color: #f4f4f4");
+		createNewAccount.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e");
 		createNewAccount.setOnAction(e -> {
 			mainLayout.setCenter(accountCreationLayout);
 			mainLayout.setTop(returnLayout);
 		});
 		//Create no account button functionality
 		Button noAccount = new Button("Continue without an account");
-		noAccount.setStyle("-fx-text-fill: rgba(41,41,243,0.8);-fx-background-color: #f4f4f4");
+		noAccount.setStyle("-fx-text-fill: #FFFFFFFF;-fx-background-color: #3e3e3e");
 		noAccount.setOnAction(e -> {
 			test.user=-1;
 			formWarningLabel.setText("No account created. Results may be generic");
@@ -528,9 +548,8 @@ public class Main extends Application{
 		});
 		loginLayout = new VBox(20);
 		loginLayout.setAlignment(Pos.CENTER);
+		loginLayout.setStyle("-fx-background-color : #3e3e3e");
 		loginLayout.getChildren().addAll(loginHeader,loginWarningLabel,loginUsername,loginPassword,loginButton,createNewAccount,noAccount);
-
-
 		
 		//Combines pieces and shows window allowing the program to launch
 		primaryStage.setTitle("Nutrition Tracker");
