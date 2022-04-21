@@ -1,12 +1,11 @@
 //JavaFX stuff
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -104,13 +103,20 @@ public class Main extends Application{
 		Scene mainScene = new Scene(mainLayout,960,540);
 
 		//Declare login at beginning so it can be called from any page
-		//VBox loginLayout;
 
 		//TODO exit confirmation
-		//TODO continue without account
-		//TODO return to login page
 		//TODO check for invalid characters
-		//TODO clear old messages
+
+		//Sets up return to login button
+		Button returnButton = new Button("Return To Login");
+		//returnButton.setStyle("-fx-background-color: #f4f4f4");
+		returnButton.setOnAction(e -> {
+			mainLayout.setCenter(loginLayout);
+			mainLayout.setTop(null);
+		});
+		HBox returnLayout = new HBox();
+		returnLayout.setPadding(new Insets(10,10,10,10));
+		returnLayout.getChildren().addAll(returnButton);
 
 		//Sets up results page
 		//Title
@@ -135,7 +141,7 @@ public class Main extends Application{
 
 		//Sets up information fill page
 		//Title
-		Label formHeader = new Label("Enter Nutrition information");
+		Label formHeader = new Label("Enter Nutrition Information");
 		formHeader.setFont(new Font("Arial",30));
 		//warning label
 		Label formWarningLabel = new Label();
@@ -243,8 +249,6 @@ public class Main extends Application{
 		formLayout.setAlignment(Pos.CENTER);
 		formLayout.getChildren().addAll(formHeader,formWarningLabel,calories,sodium,carbohydrates,protein,sugar,formEnter);
 
-
-
 		//Sets up account creation page
 		//Title
 		Label createHeader = new Label("Account Creation");
@@ -322,13 +326,13 @@ public class Main extends Application{
 			test.size++;
 			test.writeFile("NutritionTrackerAccounts.txt");
 			mainLayout.setCenter(loginLayout);
+			mainLayout.setTop(null);
 		});
 		VBox accountCreationLayout = new VBox(20);
 		accountCreationLayout.setAlignment(Pos.CENTER);
 		accountCreationLayout.getChildren().addAll(createHeader,creationWarningLabel,newUsername,newPassword,newHeight,newWeight,Sex,newAge,createAccount);
 
 		//Sets up account update page
-		//TODO unames can't be set until user is set
 		//Title
 		Label updateHeader = new Label("Edit information you wish to change");
 		updateHeader.setFont(new Font("Arial",18));
@@ -340,15 +344,12 @@ public class Main extends Application{
 		updateUsername.setMaxWidth(300);
 		//Password field
 		TextField updatePassword = new TextField();
-
 		updatePassword.setMaxWidth(300);
 		//Height field
 		TextField updateHeight = new TextField();
-
 		updateHeight.setMaxWidth(300);
 		//Weight field
 		TextField updateWeight = new TextField();
-
 		updateWeight.setMaxWidth(300);
 		//Sex field
 		ComboBox<String> updateSex = new ComboBox<>();
@@ -365,7 +366,6 @@ public class Main extends Application{
 		updateAge.setMaxWidth(300);
 		//Create account button
 		Button updateAccount = new Button("Update Account");
-		updateAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
 		updateAccount.setStyle("-fx-text-fill: #2929f3");
 		updateAccount.setOnAction(e -> {
 			userInfo = test.userInfo;
@@ -422,12 +422,12 @@ public class Main extends Application{
 		loginUsername.setPromptText("Enter Username:");
 		loginUsername.setMaxWidth(300);
 		//Password field
-		TextField loginPassword = new TextField();
+		PasswordField loginPassword = new PasswordField();
 		loginPassword.setPromptText("Enter Password:");
 		loginPassword.setMaxWidth(300);
 		//Enter button
 		Button loginButton = new Button("Enter");
-		//Enter button functionality (checking username and password)
+		//Enter button functionality (checking username and password
 		loginButton.setOnAction(e -> {
 			if(loginUsername.getText().equals("")){
 				loginWarningLabel.setText("No username entered");
@@ -445,8 +445,28 @@ public class Main extends Application{
 				}
 				if(loginPassword.getText().equals(test.userInfo[account][1])){
 					//Password matches
+					loginWarningLabel.setText("");
+					loginPassword.setText("");
+					updateWarningLabel.setText("");
+					updateUsername.setText("");
+					updatePassword.setText("");
+					updateHeight.setText("");
+					updateWeight.setText("");
+					updateAge.setText("");
+					creationWarningLabel.setText("");
+					newUsername.setText("");
+					newPassword.setText("");
+					newHeight.setText("");
+					newWeight.setText("");
+					Sex.getSelectionModel().select(null);
+					newAge.setText("");
+					formWarningLabel.setText("");
+					calories.setText("");
+					sodium.setText("");
+					carbohydrates.setText("");
+					protein.setText("");
+					sugar.setText("");
 					//Popup
-
 					BorderPane popupPane = new BorderPane(); //Border pane
 					HBox update = new HBox(20); //HBox for center
 					Button yes = new Button("Yes");
@@ -474,9 +494,10 @@ public class Main extends Application{
 					popupBorder.setTitle("Edit");
 					no.setOnAction(f -> {
 						mainLayout.setCenter(formLayout);
-						//formWarningLabel.setText("No account created. Results may be generic");
+						mainLayout.setTop(returnLayout);
 						popupBorder.close();
 					});
+
 					popupBorder.show(); //Shows stage
 				}else{
 					loginWarningLabel.setText("Incorrect password");
@@ -485,13 +506,29 @@ public class Main extends Application{
 			}
 		});
 		//Create account button functionality
-		Button createNewAccount = new Button("Create an Account");
-		createNewAccount.setStyle("-fx-background-color: rgba(0,0,0,0)");
-		createNewAccount.setStyle("-fx-text-fill: #2929f3");
-		createNewAccount.setOnAction(e -> mainLayout.setCenter(accountCreationLayout));
+		Button createNewAccount = new Button("Create an account");
+		createNewAccount.setStyle("-fx-text-fill: rgba(41,41,243,0.8);-fx-background-color: #f4f4f4");
+		createNewAccount.setOnAction(e -> {
+			mainLayout.setCenter(accountCreationLayout);
+			mainLayout.setTop(returnLayout);
+		});
+		//Create no account button functionality
+		Button noAccount = new Button("Continue without an account");
+		noAccount.setStyle("-fx-text-fill: rgba(41,41,243,0.8);-fx-background-color: #f4f4f4");
+		noAccount.setOnAction(e -> {
+			test.user=-1;
+			formWarningLabel.setText("No account created. Results may be generic");
+			calories.setText("");
+			sodium.setText("");
+			carbohydrates.setText("");
+			protein.setText("");
+			sugar.setText("");
+			mainLayout.setCenter(formLayout);
+			mainLayout.setTop(returnLayout);
+		});
 		loginLayout = new VBox(20);
 		loginLayout.setAlignment(Pos.CENTER);
-		loginLayout.getChildren().addAll(loginHeader,loginWarningLabel,loginUsername,loginPassword,loginButton,createNewAccount);
+		loginLayout.getChildren().addAll(loginHeader,loginWarningLabel,loginUsername,loginPassword,loginButton,createNewAccount,noAccount);
 
 
 		

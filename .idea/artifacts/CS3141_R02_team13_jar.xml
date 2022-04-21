@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CS3141-R02-team13:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CS3141_R02_team13_jar</output-path>
+    <root id="archive" name="CS3141-R02-team13.jar">
+      <element id="module-output" name="CS3141-R02-team13" />
+    </root>
+  </artifact>
+</component>
